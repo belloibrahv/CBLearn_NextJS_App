@@ -5,169 +5,335 @@ export default async function Home() {
   const user = await getCurrentUser();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-      {/* Hero Section */}
-      <header className="bg-white shadow-sm">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">CB</span>
-            </div>
-            <span className="text-xl font-bold text-gray-900">CBLearn</span>
-          </div>
-          <div className="flex space-x-4">
-            {user ? (
-              <Link
-                href={user.role === 'admin' ? '/admin' : '/dashboard'}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
-              >
-                Go to Dashboard
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="px-4 py-2 text-indigo-600 hover:text-indigo-700 transition"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
-                >
-                  Register
-                </Link>
-              </>
-            )}
-          </div>
-        </nav>
-      </header>
-
-      {/* Hero Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Computer Based Learning Platform
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            An interactive e-learning platform designed to enhance computer science education through
-            multimedia lessons, interactive quizzes, and progress tracking. Built for students to learn
-            at their own pace with engaging content and immediate feedback.
-          </p>
-          <div className="flex justify-center space-x-4">
-            <Link
-              href="/register"
-              className="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-lg font-semibold"
-            >
-              Get Started
+    <>
+      {/* Top Navigation */}
+      <div className="md-topbar">
+        <div className="md-brand">
+          <div className="mark"><span className="material-symbols-outlined">school</span></div>
+          CBLearn
+        </div>
+        <div className="md-nav">
+          {user ? (
+            <Link href={user.role === 'admin' ? '/admin' : '/dashboard'} className="active">
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>dashboard</span>
+              Dashboard
             </Link>
-            <Link
-              href="/login"
-              className="px-8 py-3 border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition text-lg font-semibold"
-            >
+          ) : (
+            <>
+              <Link href="/login">
+                <span className="material-symbols-outlined" style={{ fontSize: 18 }}>login</span>
+                Sign In
+              </Link>
+              <Link href="/register" className="md-btn-filled" style={{ padding: '8px 16px' }}>
+                Get Started
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Hero Section */}
+      <div className="md-auth-visual" style={{ minHeight: '70vh', padding: '80px 60px', alignItems: 'center' }}>
+        <div style={{ maxWidth: 700 }}>
+          <div className="md-label" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 16 }}>COMPUTER-BASED LEARNING PLATFORM</div>
+          <h1 className="md-display" style={{ fontSize: 48, color: '#fff', marginBottom: 24, lineHeight: 1.2 }}>
+            Transform Your Learning Experience
+          </h1>
+          <p className="md-body" style={{ fontSize: 18, color: 'rgba(255,255,255,0.9)', marginBottom: 32, maxWidth: 600, lineHeight: 1.7 }}>
+            An interactive e-learning platform designed to enhance computer science education through multimedia lessons, 
+            interactive quizzes, and comprehensive progress tracking. Built for students to learn at their own pace 
+            with engaging content and immediate feedback.
+          </p>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <Link href="/register" className="md-btn-filled" style={{ padding: '14px 28px', fontSize: 15 }}>
+              <span className="material-symbols-outlined">play_arrow</span>
+              Start Learning
+            </Link>
+            <Link href="/login" className="md-btn-outlined" style={{ padding: '14px 28px', fontSize: 15, borderColor: 'rgba(255,255,255,0.4)', color: '#fff' }}>
+              <span className="material-symbols-outlined">account_circle</span>
               Sign In
             </Link>
           </div>
         </div>
+      </div>
 
-        {/* Features Section */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
-            <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
+      {/* About Section */}
+      <div className="md-shell" style={{ padding: '60px 28px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div className="md-label">ABOUT THE PLATFORM</div>
+          <h2 className="md-display" style={{ fontSize: 36, marginBottom: 16 }}>Empowering Computer Science Education</h2>
+          <p className="md-body" style={{ fontSize: 16, maxWidth: 800, margin: '0 auto' }}>
+            CBLearn is a comprehensive learning management system developed to address the challenges of traditional 
+            computer science education. By combining modern web technologies with pedagogical best practices, 
+            we create an engaging and effective learning environment for students at Tai Solarin University of Education.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          <div className="md-card-elevated" style={{ textAlign: 'center' }}>
+            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--md-sys-color-primary-container)', color: 'var(--md-sys-color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 28 }}>lightbulb</span>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Interactive Modules</h3>
-            <p className="text-gray-600">
-              Access comprehensive modules covering various computer science topics with multimedia content.
+            <h3 className="md-headline" style={{ fontSize: 20, marginBottom: 12 }}>Our Mission</h3>
+            <p className="md-body-sm">
+              To provide accessible, high-quality computer science education that empowers students with practical 
+              skills and theoretical knowledge for the digital age.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+          <div className="md-card-elevated" style={{ textAlign: 'center' }}>
+            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--md-sys-color-secondary-container)', color: 'var(--md-sys-color-on-secondary-container)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 28 }}>target</span>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Quizzes & Assessment</h3>
-            <p className="text-gray-600">
-              Test your knowledge with interactive quizzes and receive instant feedback on your performance.
+            <h3 className="md-headline" style={{ fontSize: 20, marginBottom: 12 }}>Our Vision</h3>
+            <p className="md-body-sm">
+              To become the leading platform for computer science education in Nigeria, fostering innovation 
+              and excellence in technology learning.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
+          <div className="md-card-elevated" style={{ textAlign: 'center' }}>
+            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--md-sys-color-success-container)', color: 'var(--md-sys-color-success)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 28 }}>verified</span>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Progress Tracking</h3>
-            <p className="text-gray-600">
-              Monitor your learning progress with detailed analytics and performance history.
+            <h3 className="md-headline" style={{ fontSize: 20, marginBottom: 12 }}>Our Values</h3>
+            <p className="md-body-sm">
+              Excellence, accessibility, innovation, and student success are at the core of everything we do.
             </p>
           </div>
         </div>
+      </div>
 
-        {/* Team Section */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">Project Team</h2>
-          
-          {/* Supervisor */}
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold text-gray-700 mb-6 text-center">Supervisor</h3>
-            <div className="flex justify-center">
-              <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-8 rounded-xl text-center max-w-sm">
-                <div className="w-24 h-24 bg-indigo-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <svg className="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-                <h4 className="text-xl font-bold text-gray-900 mb-1">Mrs. Ogunbanjo</h4>
-                <p className="text-gray-600">Project Supervisor</p>
+      {/* Features Section */}
+      <div style={{ background: 'var(--md-sys-color-surface-container)', padding: '60px 28px' }}>
+        <div className="md-shell" style={{ padding: 0 }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div className="md-label">PLATFORM FEATURES</div>
+            <h2 className="md-display" style={{ fontSize: 36, marginBottom: 16 }}>Everything You Need to Succeed</h2>
+            <p className="md-body" style={{ fontSize: 16, maxWidth: 700, margin: '0 auto' }}>
+              Our platform offers a comprehensive suite of tools designed to enhance your learning experience 
+              and help you achieve your academic goals.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
+            <div className="md-card" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ width: 48, height: 48, borderRadius: 'var(--md-shape-sm)', background: 'var(--md-sys-color-primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 24 }}>menu_book</span>
+              </div>
+              <div>
+                <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Interactive Course Modules</h3>
+                <p className="md-body-sm">
+                  Access comprehensive modules covering various computer science topics including programming, 
+                  data structures, algorithms, databases, and more. Each module includes multimedia content, 
+                  practical examples, and self-paced learning materials.
+                </p>
               </div>
             </div>
+
+            <div className="md-card" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ width: 48, height: 48, borderRadius: 'var(--md-shape-sm)', background: 'var(--md-sys-color-secondary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 24 }}>quiz</span>
+              </div>
+              <div>
+                <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Interactive Quizzes</h3>
+                <p className="md-body-sm">
+                  Test your knowledge with interactive quizzes at the end of each lesson. Receive instant 
+                  feedback on your answers, track your scores, and identify areas where you need improvement. 
+                  Our adaptive quiz system ensures you're always challenged appropriately.
+                </p>
+              </div>
+            </div>
+
+            <div className="md-card" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ width: 48, height: 48, borderRadius: 'var(--md-shape-sm)', background: 'var(--md-sys-color-success)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 24 }}>analytics</span>
+              </div>
+              <div>
+                <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Progress Tracking</h3>
+                <p className="md-body-sm">
+                  Monitor your learning journey with detailed analytics. Track your completion rates, quiz scores, 
+                  and overall progress across all modules. Visual dashboards help you understand your strengths 
+                  and areas for improvement at a glance.
+                </p>
+              </div>
+            </div>
+
+            <div className="md-card" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ width: 48, height: 48, borderRadius: 'var(--md-shape-sm)', background: 'var(--md-sys-color-primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 24 }}>schedule</span>
+              </div>
+              <div>
+                <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Self-Paced Learning</h3>
+                <p className="md-body-sm">
+                  Learn at your own pace with our flexible scheduling system. Access materials anytime, anywhere, 
+                  and revisit lessons as many times as needed. Your progress is automatically saved, allowing 
+                  you to pick up exactly where you left off.
+                </p>
+              </div>
+            </div>
+
+            <div className="md-card" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ width: 48, height: 48, borderRadius: 'var(--md-shape-sm)', background: 'var(--md-sys-color-secondary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 24 }}>devices</span>
+              </div>
+              <div>
+                <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Multi-Device Access</h3>
+                <p className="md-body-sm">
+                  Access the platform from any device - desktop, tablet, or mobile. Our responsive design ensures 
+                  a seamless learning experience regardless of the device you're using. Study on the go or at 
+                  your desk with equal ease.
+                </p>
+              </div>
+            </div>
+
+            <div className="md-card" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ width: 48, height: 48, borderRadius: 'var(--md-shape-sm)', background: 'var(--md-sys-color-success)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 24 }}>security</span>
+              </div>
+              <div>
+                <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Secure & Private</h3>
+                <p className="md-body-sm">
+                  Your data and privacy are our top priority. We use industry-standard security measures to 
+                  protect your information. Your learning progress and personal details are securely stored 
+                  and never shared with third parties.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* How It Works Section */}
+      <div className="md-shell" style={{ padding: '60px 28px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div className="md-label">HOW IT WORKS</div>
+          <h2 className="md-display" style={{ fontSize: 36, marginBottom: 16 }}>Simple Steps to Get Started</h2>
+          <p className="md-body" style={{ fontSize: 16, maxWidth: 700, margin: '0 auto' }}>
+            Getting started with CBLearn is easy. Follow these simple steps to begin your learning journey.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, textAlign: 'center' }}>
+          <div>
+            <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--md-sys-color-primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 28, fontWeight: 700 }}>
+              1
+            </div>
+            <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Register</h3>
+            <p className="md-body-sm">Create your account with your matriculation number and get started in minutes.</p>
+          </div>
+
+          <div>
+            <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--md-sys-color-secondary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 28, fontWeight: 700 }}>
+              2
+            </div>
+            <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Choose Module</h3>
+            <p className="md-body-sm">Browse available course modules and select where you want to start learning.</p>
+          </div>
+
+          <div>
+            <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--md-sys-color-primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 28, fontWeight: 700 }}>
+              3
+            </div>
+            <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Learn & Quiz</h3>
+            <p className="md-body-sm">Study the lessons and complete quizzes to test your understanding.</p>
+          </div>
+
+          <div>
+            <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--md-sys-color-success)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 28, fontWeight: 700 }}>
+              4
+            </div>
+            <h3 className="md-headline" style={{ fontSize: 18, marginBottom: 8 }}>Track Progress</h3>
+            <p className="md-body-sm">Monitor your progress and continue learning at your own pace.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Team Section */}
+      <div style={{ background: 'var(--md-sys-color-surface-container)', padding: '60px 28px' }}>
+        <div className="md-shell" style={{ padding: 0 }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div className="md-label">PROJECT TEAM</div>
+            <h2 className="md-display" style={{ fontSize: 36, marginBottom: 16 }}>Meet the Team</h2>
+            <p className="md-body" style={{ fontSize: 16, maxWidth: 700, margin: '0 auto' }}>
+              This project was developed by dedicated student researchers under the guidance of experienced faculty.
+            </p>
+          </div>
+
+          {/* Supervisor */}
+          <div className="md-card-elevated" style={{ maxWidth: 500, margin: '0 auto 32px', textAlign: 'center', padding: 32 }}>
+            <div style={{ width: 96, height: 96, borderRadius: '50%', background: 'linear-gradient(135deg, var(--md-sys-color-primary), #0E2247)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 48 }}>person</span>
+            </div>
+            <h3 className="md-headline" style={{ fontSize: 24, marginBottom: 8 }}>Mrs. Ogunbanjo</h3>
+            <div className="md-chip md-chip-progress" style={{ fontSize: 13, padding: '6px 16px', marginBottom: 12 }}>Project Supervisor</div>
+            <p className="md-body-sm" style={{ fontSize: 14 }}>
+              Providing guidance, mentorship, and academic oversight throughout the development of this platform.
+            </p>
           </div>
 
           {/* Student Researchers */}
-          <div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-6 text-center">Student Researchers</h3>
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl text-center">
-                <div className="w-20 h-20 bg-blue-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-                <h4 className="text-lg font-bold text-gray-900 mb-1">Lawal Habeeb Ayinde</h4>
-                <p className="text-gray-600 text-sm mb-2">Matric Number: 20220204291</p>
-                <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-                  Student Researcher
-                </span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24, maxWidth: 900, margin: '0 auto' }}>
+            <div className="md-card" style={{ textAlign: 'center', padding: 28 }}>
+              <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--md-sys-color-primary-container)', color: 'var(--md-sys-color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 40 }}>person</span>
               </div>
+              <h3 className="md-headline" style={{ fontSize: 20, marginBottom: 8 }}>Lawal Habeeb Ayinde</h3>
+              <p className="md-body-sm" style={{ marginBottom: 12 }}>Matric Number: 20220204291</p>
+              <div className="md-chip md-chip-neutral">Student Researcher</div>
+            </div>
 
-              <div className="bg-gradient-to-br from-pink-50 to-rose-50 p-6 rounded-xl text-center">
-                <div className="w-20 h-20 bg-pink-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-                <h4 className="text-lg font-bold text-gray-900 mb-1">Ibuola Bukola Deborah</h4>
-                <p className="text-gray-600 text-sm mb-2">Matric Number: 20220204300</p>
-                <span className="inline-block px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-semibold">
-                  Student Researcher
-                </span>
+            <div className="md-card" style={{ textAlign: 'center', padding: 28 }}>
+              <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--md-sys-color-secondary-container)', color: 'var(--md-sys-color-on-secondary-container)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 40 }}>person</span>
               </div>
+              <h3 className="md-headline" style={{ fontSize: 20, marginBottom: 8 }}>Ibuola Bukola Deborah</h3>
+              <p className="md-body-sm" style={{ marginBottom: 12 }}>Matric Number: 20220204300</p>
+              <div className="md-chip md-chip-neutral">Student Researcher</div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Footer */}
-        <footer className="text-center text-gray-600 py-8 border-t">
-          <p>&copy; 2026 CBLearn. A Computer Based Learning Platform.</p>
-          <p className="mt-2 text-sm">Department of Computer Science, Tai Solarin University of Education</p>
-        </footer>
-      </main>
-    </div>
+      {/* CTA Section */}
+      <div className="md-auth-visual" style={{ padding: '60px 28px', textAlign: 'center', minHeight: 'auto' }}>
+        <div className="md-shell" style={{ padding: 0 }}>
+          <h2 className="md-display" style={{ fontSize: 36, color: '#fff', marginBottom: 16 }}>Ready to Start Learning?</h2>
+          <p className="md-body" style={{ fontSize: 18, color: 'rgba(255,255,255,0.9)', marginBottom: 32, maxWidth: 600, margin: '0 auto 32px' }}>
+            Join hundreds of students already using CBLearn to enhance their computer science education. 
+            Sign up today and take the first step towards mastering essential tech skills.
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/register" className="md-btn-filled" style={{ padding: '14px 32px', fontSize: 15 }}>
+              Create Account
+            </Link>
+            <Link href="/login" className="md-btn-outlined" style={{ padding: '14px 32px', fontSize: 15, borderColor: 'rgba(255,255,255,0.4)', color: '#fff' }}>
+              Sign In
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer style={{ background: 'var(--md-sys-color-surface-dim)', padding: '40px 28px', borderTop: '1px solid var(--md-sys-color-outline)' }}>
+        <div className="md-shell" style={{ padding: 0, textAlign: 'center' }}>
+          <div className="md-brand" style={{ justifyContent: 'center', marginBottom: 16 }}>
+            <div className="mark"><span className="material-symbols-outlined">school</span></div>
+            CBLearn
+          </div>
+          <p className="md-body-sm" style={{ marginBottom: 8 }}>
+            &copy; 2026 CBLearn. Computer Based Learning Platform.
+          </p>
+          <p className="md-body-sm" style={{ opacity: 0.7 }}>
+            Department of Computer Science, Tai Solarin University of Education
+          </p>
+          <div style={{ marginTop: 20, display: 'flex', gap: 16, justifyContent: 'center' }}>
+            <span className="md-chip md-chip-neutral">Next.js 15</span>
+            <span className="md-chip md-chip-neutral">PostgreSQL</span>
+            <span className="md-chip md-chip-neutral">Docker</span>
+          </div>
+        </div>
+      </footer>
+    </>
   );
 }
