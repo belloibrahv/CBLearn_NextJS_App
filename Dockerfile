@@ -6,9 +6,11 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy package files and node_modules from local build
+# Copy package files
 COPY package.json package-lock.json* ./
-COPY node_modules ./node_modules
+
+# Install dependencies
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -20,8 +22,8 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
-# Copy local .next build instead of building in Docker (avoids network issues)
-COPY .next ./.next
+# Build the application
+RUN npm run build
 
 # Production image
 FROM base AS runner
