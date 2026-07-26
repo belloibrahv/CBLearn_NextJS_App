@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS lessons (
   title TEXT NOT NULL,
   content_body TEXT NOT NULL,
   media_note TEXT,
+  video_url TEXT,
   sequence_no INTEGER NOT NULL
 );
 

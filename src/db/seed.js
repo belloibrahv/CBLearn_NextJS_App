@@ -35,6 +35,7 @@ const MODULES = [
         title: '1.1 What is a Computer?',
         content: 'A computer is an electronic device that accepts data as input, processes it according to a set of instructions, and produces output. Computers consist of hardware, the physical components, and software, the instructions that tell the hardware what to do.',
         media: 'Video: Introduction to Computers (07:12)',
+        videoUrl: 'https://www.youtube.com/watch?v=kpOe0-1e8O4',
         quiz: {
           title: 'Computer Basics Quiz',
           questions: [
@@ -54,6 +55,7 @@ const MODULES = [
         title: '2.1 Binary and Decimal Number Systems',
         content: 'Computers represent all data using the binary number system, which uses only two digits, 0 and 1. Each binary digit is called a bit. Understanding how to convert between binary and the familiar decimal system is a foundational skill in computing.',
         media: 'Interactive simulation: Binary to Decimal Converter',
+        videoUrl: 'https://www.youtube.com/watch?v=XpkTyYw5Bg0',
         quiz: {
           title: 'Number Systems Quiz',
           questions: [
@@ -73,6 +75,7 @@ const MODULES = [
         title: '3.1 What is a Programming Language?',
         content: 'A programming language is a formal set of instructions used to produce various kinds of output, including software applications. Programming languages allow a developer to communicate instructions to a computer in a structured, unambiguous way.',
         media: 'Video: What is a Programming Language? (05:40)',
+        videoUrl: 'https://www.youtube.com/watch?v=zOjov-2OZ0E',
         quiz: {
           title: 'Programming Fundamentals Quiz',
           questions: [
@@ -84,6 +87,7 @@ const MODULES = [
         title: '3.2 Variables, Data Types, and Simple Input/Output',
         content: 'A variable is a named location in computer memory used to store a value that can change while a program is running. Common data types include integers, floating-point numbers, characters, and boolean values. Choosing the appropriate data type helps a program use memory efficiently and avoid errors.',
         media: 'Video: Variables and Data Types (08:24)',
+        videoUrl: 'https://www.youtube.com/watch?v=cT33J4kZ3pQ',
         quiz: {
           title: 'Variables and Data Types Quiz',
           questions: [
@@ -105,6 +109,7 @@ const MODULES = [
         title: '4.1 Introduction to Data Structures',
         content: 'A data structure is a particular way of organising data so that it can be used efficiently. Common data structures include arrays, which store elements in a fixed sequence, and lists, which can grow or shrink as needed.',
         media: 'Diagram: Arrays vs Lists',
+        videoUrl: 'https://www.youtube.com/watch?v=RBSGKlAvo9M',
         quiz: {
           title: 'Data Structures Quiz',
           questions: [
@@ -122,6 +127,7 @@ const MODULES = [
         title: '5.1 What is a Database?',
         content: 'A database is an organised collection of structured data stored electronically, typically managed by a database management system. Databases allow information to be stored, retrieved, and updated efficiently.',
         media: 'Reading: Introduction to Databases (PDF)',
+        videoUrl: 'https://www.youtube.com/watch?v=k4RgF2RUnSE',
         quiz: {
           title: 'Database Concepts Quiz',
           questions: [
@@ -139,6 +145,7 @@ const MODULES = [
         title: '6.1 How the Internet Works',
         content: 'The internet is a global network of interconnected computers that communicate using standardised protocols. Data is broken into small packets, transmitted across the network, and reassembled at its destination.',
         media: 'Video: How the Internet Works (06:15)',
+        videoUrl: 'https://www.youtube.com/watch?v=5Gn4rhP6Y-I',
         quiz: {
           title: 'Internet Basics Quiz',
           questions: [
@@ -163,8 +170,8 @@ async function seedPg(pool) {
     for (let li = 0; li < m.lessons.length; li++) {
       const l = m.lessons[li];
       const lesRes = await pool.query(
-        'INSERT INTO lessons (module_id, title, content_body, media_note, sequence_no) VALUES ($1,$2,$3,$4,$5) RETURNING id',
-        [moduleId, l.title, l.content, l.media, li + 1]
+        'INSERT INTO lessons (module_id, title, content_body, media_note, video_url, sequence_no) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id',
+        [moduleId, l.title, l.content, l.media, l.videoUrl || null, li + 1]
       );
       const lessonId = lesRes.rows[0].id;
       const quizRes = await pool.query(
@@ -192,7 +199,7 @@ function seedSqlite(db) {
   const count = db.prepare('SELECT COUNT(*) AS c FROM modules').get().c;
   if (count > 0) return;
   const insMod = db.prepare('INSERT INTO modules (title, description, sequence_no) VALUES (?,?,?)');
-  const insLes = db.prepare('INSERT INTO lessons (module_id, title, content_body, media_note, sequence_no) VALUES (?,?,?,?,?)');
+  const insLes = db.prepare('INSERT INTO lessons (module_id, title, content_body, media_note, video_url, sequence_no) VALUES (?,?,?,?,?,?)');
   const insQuiz = db.prepare('INSERT INTO quizzes (lesson_id, title, pass_mark) VALUES (?,?,?)');
   const insQ = db.prepare('INSERT INTO questions (quiz_id, question_text, options, correct_option, sequence_no) VALUES (?,?,?,?,?)');
 
@@ -200,7 +207,7 @@ function seedSqlite(db) {
     MODULES.forEach((m, mi) => {
       const moduleId = insMod.run(m.title, m.description, mi + 1).lastInsertRowid;
       m.lessons.forEach((l, li) => {
-        const lessonId = insLes.run(moduleId, l.title, l.content, l.media, li + 1).lastInsertRowid;
+        const lessonId = insLes.run(moduleId, l.title, l.content, l.media, l.videoUrl || null, li + 1).lastInsertRowid;
         const quizId = insQuiz.run(lessonId, l.quiz.title, 50).lastInsertRowid;
         l.quiz.questions.forEach((q, qi) => {
           insQ.run(quizId, q.q, JSON.stringify(q.options), q.correct, qi + 1);

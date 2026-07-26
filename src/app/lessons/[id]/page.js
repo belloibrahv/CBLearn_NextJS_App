@@ -5,6 +5,12 @@ import { query } from '@/db';
 import TopNav from '@/components/TopNav';
 import QuizPanel from '@/components/QuizPanel';
 
+function getYouTubeId(url) {
+  if (!url) return null;
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
+  return match ? match[1] : null;
+}
+
 export default async function LessonPage({ params }) {
   const user = await getCurrentUser();
   if (!user) redirect('/login');
@@ -34,6 +40,8 @@ export default async function LessonPage({ params }) {
     };
   }
 
+  const youtubeId = getYouTubeId(lesson.video_url);
+
   return (
     <>
       <TopNav user={user} />
@@ -46,15 +54,30 @@ export default async function LessonPage({ params }) {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 24 }}>
           <div>
-            <div style={{
-              background: '#0E2247', borderRadius: 16, aspectRatio: '16/8', display: 'flex',
-              alignItems: 'center', justifyContent: 'center', color: '#fff', marginBottom: 18, position: 'relative',
-            }}>
-              <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(255,255,255,0.16)', border: '2px solid rgba(255,255,255,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span className="material-symbols-outlined" style={{ fontSize: 28 }}>play_arrow</span>
+            {youtubeId ? (
+              <div style={{ marginBottom: 18 }}>
+                <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, borderRadius: 16, overflow: 'hidden', background: '#0E2247' }}>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${youtubeId}`}
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title="Lesson video"
+                  />
+                </div>
+                <div style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}>{lesson.media_note}</div>
               </div>
-              <div style={{ position: 'absolute', bottom: 14, left: 16, fontSize: 12, opacity: 0.85 }}>{lesson.media_note}</div>
-            </div>
+            ) : (
+              <div style={{
+                background: '#0E2247', borderRadius: 16, aspectRatio: '16/8', display: 'flex',
+                alignItems: 'center', justifyContent: 'center', color: '#fff', marginBottom: 18, position: 'relative',
+              }}>
+                <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(255,255,255,0.16)', border: '2px solid rgba(255,255,255,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: 28 }}>play_arrow</span>
+                </div>
+                <div style={{ position: 'absolute', bottom: 14, left: 16, fontSize: 12, opacity: 0.85 }}>{lesson.media_note}</div>
+              </div>
+            )}
 
             <p className="md-body" style={{ whiteSpace: 'pre-line' }}>{lesson.content_body}</p>
 
