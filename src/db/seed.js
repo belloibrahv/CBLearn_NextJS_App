@@ -157,6 +157,29 @@ const MODULES = [
   },
 ];
 
+const STUDENTS = [
+  { matric_number: 'STU/0001', full_name: 'Adebayo Adeola', department: 'Computer Science' },
+  { matric_number: 'STU/0002', full_name: 'Bello Ibrahim', department: 'Computer Science' },
+  { matric_number: 'STU/0003', full_name: 'Chioma Okafor', department: 'Computer Science' },
+  { matric_number: 'STU/0004', full_name: 'David Okonkwo', department: 'Computer Science' },
+  { matric_number: 'STU/0005', full_name: 'Efe Johnson', department: 'Computer Science' },
+  { matric_number: 'STU/0006', full_name: 'Fatima Mohammed', department: 'Computer Science' },
+  { matric_number: 'STU/0007', full_name: 'George Adebayo', department: 'Computer Science' },
+  { matric_number: 'STU/0008', full_name: 'Hassan Ibrahim', department: 'Computer Science' },
+  { matric_number: 'STU/0009', full_name: 'Ifeoma Okafor', department: 'Computer Science' },
+  { matric_number: 'STU/0010', full_name: 'James Okonkwo', department: 'Computer Science' },
+  { matric_number: 'STU/0011', full_name: 'Kemi Johnson', department: 'Computer Science' },
+  { matric_number: 'STU/0012', full_name: 'Lagos Mohammed', department: 'Computer Science' },
+  { matric_number: 'STU/0013', full_name: 'Mary Adebayo', department: 'Computer Science' },
+  { matric_number: 'STU/0014', full_name: 'Nnamdi Ibrahim', department: 'Computer Science' },
+  { matric_number: 'STU/0015', full_name: 'Obi Okafor', department: 'Computer Science' },
+  { matric_number: 'STU/0016', full_name: 'Patience Okonkwo', department: 'Computer Science' },
+  { matric_number: 'STU/0017', full_name: 'Quincy Johnson', department: 'Computer Science' },
+  { matric_number: 'STU/0018', full_name: 'Rita Mohammed', department: 'Computer Science' },
+  { matric_number: 'STU/0019', full_name: 'Samuel Adebayo', department: 'Computer Science' },
+  { matric_number: 'STU/0020', full_name: 'Tolu Ibrahim', department: 'Computer Science' },
+];
+
 async function seedPg(pool) {
   const { rows } = await pool.query('SELECT COUNT(*)::int AS c FROM modules');
   if (rows[0].c > 0) return;
@@ -193,6 +216,13 @@ async function seedPg(pool) {
     'INSERT INTO users (full_name, matric_number, department, password_hash, role, created_at) VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING',
     ['Administrator', 'ADMIN/0001', 'Computer Science', adminHash, 'admin', Date.now()]
   );
+  for (const student of STUDENTS) {
+    const studentHash = bcrypt.hashSync('student123', 10);
+    await pool.query(
+      'INSERT INTO users (full_name, matric_number, department, password_hash, role, created_at) VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING',
+      [student.full_name, student.matric_number, student.department, studentHash, 'student', Date.now()]
+    );
+  }
 }
 
 function seedSqlite(db) {
@@ -217,6 +247,11 @@ function seedSqlite(db) {
     const adminHash = bcrypt.hashSync('admin123', 10);
     db.prepare('INSERT OR IGNORE INTO users (full_name, matric_number, department, password_hash, role, created_at) VALUES (?,?,?,?,?,?)')
       .run('Administrator', 'ADMIN/0001', 'Computer Science', adminHash, 'admin', Date.now());
+    for (const student of STUDENTS) {
+      const studentHash = bcrypt.hashSync('student123', 10);
+      db.prepare('INSERT OR IGNORE INTO users (full_name, matric_number, department, password_hash, role, created_at) VALUES (?,?,?,?,?,?)')
+        .run(student.full_name, student.matric_number, student.department, studentHash, 'student', Date.now());
+    }
   });
   tx();
 }
